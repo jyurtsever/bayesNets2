@@ -98,12 +98,20 @@ def constructBayesNet(gameState):
     "*** YOUR CODE HERE ***"
     for housePos in gameState.getPossibleHouses():
         for obsPos in gameState.getHouseWalls(housePos):
-            obsVars.append(OBS_VAR_TEMPLATE % obsPos)
+            obsVar = OBS_VAR_TEMPLATE % obsPos
+            obsVars.append(obsVar)
+            variableDomainsDict[obsVar] = OBS_VALS
 
     edges.append((X_POS_VAR, FOOD_HOUSE_VAR))
     edges.append((X_POS_VAR, GHOST_HOUSE_VAR))
     edges.append((Y_POS_VAR, FOOD_HOUSE_VAR))
     edges.append((Y_POS_VAR, GHOST_HOUSE_VAR))
+
+    variableDomainsDict[X_POS_VAR] = X_POS_VALS
+    variableDomainsDict[Y_POS_VAR] = Y_POS_VALS
+    variableDomainsDict[GHOST_HOUSE_VAR] = HOUSE_VALS
+    variableDomainsDict[FOOD_HOUSE_VAR] = HOUSE_VALS
+
     for obsVar in obsVars:
         edges.append((GHOST_HOUSE_VAR, obsVar))
         edges.append((FOOD_HOUSE_VAR, obsVar))
@@ -191,7 +199,7 @@ def fillObsCPT(bayesNet, gameState):
     You will need to create a new factor for *each* of 4*7 = 28 observation
     variables. Don't forget to call bayesNet.setCPT for each factor you create.
 
-    The XXXPos variables at the beginning of this method contain the (x, y)
+    The XXXPos variables at the beginning of this12 method contain the (x, y)
     coordinates of each possible house location.
 
     IMPORTANT:
@@ -206,12 +214,26 @@ def fillObsCPT(bayesNet, gameState):
     bottomLeftPos, topLeftPos, bottomRightPos, topRightPos = gameState.getPossibleHouses()
     "*** YOUR CODE HERE ***"
     domain = bayesNet.variableDomainsDict()
+    houseLocs = {bottomLeftPos: 'bottomLeft', topLeftPos: 'topLeft',
+                 bottomRightPos: 'bottomRight', topRightPos: 'topRight'}
+
     for housePos in gameState.getPossibleHouses():
+
         for obsPos in gameState.getHouseWalls(housePos):
             obsVar = OBS_VAR_TEMPLATE % obsPos
-            fact = bn.Factor([obsVar], [FOOD_HOUSE_VAR, GHOST_HOUSE_VAR], domain)
-            fact.setProbability({obsVar: OBS_VALS[0]}, layout.PROB_FOOD_RED + )
-    util.raiseNotDefined()
+            obsFact = bn.Factor([obsVar], HOUSE_VARS, domain)
+
+            for assignment in obsFact.getAllPossibleAssignmentDicts():
+                probs = {}
+                houseLoc = houseLocs[housePos]
+                if assignment[FOOD_HOUSE_VAR] == houseLoc:
+                    probs[BLUE_OBS_VAL], probs[RED_OBS_VAL], probs[NO_OBS_VAL] = 1 - PROB_FOOD_RED, PROB_FOOD_RED, 0
+                elif assignment[GHOST_HOUSE_VAR] == houseLoc:
+                    probs[BLUE_OBS_VAL], probs[RED_OBS_VAL], probs[NO_OBS_VAL] = 1 - PROB_GHOST_RED, PROB_GHOST_RED, 0
+                else:
+                    probs[BLUE_OBS_VAL], probs[RED_OBS_VAL], probs[NO_OBS_VAL] = 0, 0, 1
+                obsFact.setProbability(assignment, probs[assignment[obsVar]])
+            bayesNet.setCPT(obsVar, obsFact)
 
 def getMostLikelyFoodHousePosition(evidence, bayesNet, eliminationOrder):
     """
