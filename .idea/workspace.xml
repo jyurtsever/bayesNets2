@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="46731370-2660-4c7e-b5cd-f3b0f77862b1" name="Default" comment="Finished Q3">
+    <list default="true" id="46731370-2660-4c7e-b5cd-f3b0f77862b1" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/factorOperations.py" afterPath="$PROJECT_DIR$/factorOperations.py" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -316,7 +315,14 @@
       <option name="project" value="LOCAL" />
       <updated>1522107726696</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Finished Q3">
+      <created>1522222487993</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1522222487993</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -386,7 +392,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Questions 1 and 2 Done" />
-    <option name="LAST_COMMIT_MESSAGE" value="Questions 1 and 2 Done" />
+    <MESSAGE value="Finished Q3" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finished Q3" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
